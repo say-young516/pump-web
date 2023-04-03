@@ -178,7 +178,9 @@ const Step2 = () => {
 							name="storeImage"
 							value="defaultImage"
 							onChange={handleSelectedStoreImageBtn}
-							defaultChecked={selectedStoreImageBtn === 'defaultImage'}
+							defaultChecked={
+								query?.get('isReady') === null || data === null || data === undefined || selectedStoreImageBtn === 'defaultImage'
+							}
 						/>
 						<StyledLayout.FlexBox style={{ paddingLeft: '8px' }} gap="8px" flexDirection="column">
 							<label htmlFor="defaultImage">
@@ -200,7 +202,11 @@ const Step2 = () => {
 							name="storeImage"
 							value="registerImage"
 							onChange={handleSelectedStoreImageBtn}
-							defaultChecked={selectedStoreImageBtn === 'registerImage'}
+							defaultChecked={
+								query?.get('isReady') !== null ||
+								(data !== null && data !== undefined) ||
+								selectedStoreImageBtn === 'registerImage'
+							}
 						/>
 						<StyledLayout.FlexBox style={{ paddingLeft: '8px' }} gap="8px" flexDirection="column">
 							<label htmlFor="registerImage">
@@ -255,7 +261,12 @@ const Step2 = () => {
 								name="businessHour"
 								value="weekDaysWeekEnd"
 								onClick={() => handleSelectedBusinessHourBtn('weekDaysWeekEnd')}
-								defaultChecked={data === null || data === undefined}
+								defaultChecked={
+									query?.get('isReady') === null ||
+									data === null ||
+									data === undefined ||
+									selectedBusinessHourBtn === 'weekDaysWeekEnd'
+								}
 							/>
 							<label htmlFor="weekDaysWeekEnd">
 								<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
@@ -268,7 +279,11 @@ const Step2 = () => {
 								name="businessHour"
 								value="eachDays"
 								onClick={() => handleSelectedBusinessHourBtn('eachDays')}
-								defaultChecked={data !== null && data !== undefined}
+								defaultChecked={
+									query?.get('isReady') !== null ||
+									(data !== null && data !== undefined) ||
+									selectedBusinessHourBtn === 'eachDays'
+								}
 							/>
 							<label htmlFor="eachDays">
 								<Typography variant="h2" aggressive="button_001" color={theme.colors.gray_006}>
