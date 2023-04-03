@@ -63,6 +63,7 @@ export const getStoreQueryKey = 'get/store';
 export const useGetStore = (query?: string | null) => {
 	return useQuery([getStoreQueryKey], async () => await getStore(), {
 		enabled: !!query,
+		cacheTime: 0,
 	});
 };
 
