@@ -140,8 +140,8 @@ export const productStore = create<Products>()(
 			for (let i = 0; i < items.length; i++) {
 				const productArr = items[i].category;
 				if (
-					productArr !== '기초화장 / 세안' &&
-					productArr !== '바디 / 헤어' &&
+					productArr !== '기초화장/세안' &&
+					productArr !== '바디/헤어' &&
 					productArr !== '세제' &&
 					productArr !== '식재료' &&
 					productArr !== '기타'
