@@ -33,6 +33,5 @@ export const getItemsQueryKey = 'get/item';
 export const useGetItems = (id: number) => {
 	return useQuery([getItemsQueryKey], async () => await getItems(id), {
 		enabled: !!id,
-		cacheTime: 0,
 	});
 };
