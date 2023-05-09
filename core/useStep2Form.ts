@@ -10,10 +10,10 @@ import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
 import { step1RequestStore } from 'store/actions/step1Store';
 import { step2ErrorStore, step2RequestStore } from 'store/actions/step2Store';
 import {
+	IBusinessLicenseStatusResponse,
 	checkEmptyInputError,
 	extractBusinessLicenseExceptHyhpen,
 	handleFindCoords,
-	IBusinessLicenseStatusResponse,
 	makeBusinessHourData,
 	makeImgPath,
 	makeStoreAddress,
@@ -25,6 +25,7 @@ export const useStep2Form = () => {
 	const query = useSearchParams();
 	const num = /[-0-9]/;
 	const [businessHourValues, setBusinessHourValues] = useState<Array<{ day: string; time: string | null }>>([]);
+	const [axiosLoading, setAxiosLoading] = useState(false);
 	const { step2Request, setStep2Request } = step2RequestStore();
 	const { imgPath, registrationNumber, setInputState, setInitialValue } = step2ErrorStore();
 	const { modalKey, changeModalKey } = useModalStore();
@@ -119,14 +120,16 @@ export const useStep2Form = () => {
 		setStoreCallNumber(e.target.value);
 	};
 	const submitInputs = async () => {
+		changeModalKey(MODAL_KEY.OFF);
+		setAxiosLoading(true);
 		await patchManager(step1Request);
 		const step2Response = await postStore(step2Request);
-		changeModalKey(MODAL_KEY.OFF);
 		router.replace(`/registration/step3?id=${step2Response.storeId}`);
 	};
 	const submitEditInputs = async () => {
-		const step2EditResponse = await patchStore({ ...step2Request, id: Number(query?.get('storeId')) });
 		changeModalKey(MODAL_KEY.OFF);
+		setAxiosLoading(true);
+		await patchStore({ ...step2Request, id: Number(query?.get('storeId')) });
 		router.replace(`/mypage/store`);
 	};
 	const handleSelectedStoreImageBtn = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -218,5 +221,6 @@ export const useStep2Form = () => {
 		setData,
 		modalKey,
 		submitEditInputs,
+		axiosLoading,
 	};
 };

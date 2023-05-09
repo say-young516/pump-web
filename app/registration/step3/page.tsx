@@ -1,13 +1,14 @@
 'use client';
 import { Accordion, AccordionDetails, AccordionSummary, withStyles } from '@material-ui/core';
 import {
+	ProductInfoElement,
 	StoreEditCompletionConfirmModal,
 	StoreProductRequiredSaveWarningModal,
 	StoreProductRequiredWarningModal,
 	StoreRegistrationConfirmModal,
 } from 'components/feature';
-import ProductInfoElement from 'components/feature/ProductInfoElement';
-import { LargeBtn, StyledLayout, Toast, Typography } from 'components/shared';
+import { LargeBtn, LoadingCircleLottie, StyledLayout, Toast, Typography } from 'components/shared';
+import { FlexBox } from 'components/shared/styled/layout';
 import { useStep3Form } from 'core/useStep3Form';
 import { useGetItems } from 'hooks/api/items/useGetItems';
 import { ExpandMoreIcon } from 'public/static/icons';
@@ -32,6 +33,7 @@ const Step3 = () => {
 		setProduct,
 		modalKey,
 		changeModalKey,
+		axiosLoading,
 	} = useStep3Form();
 	const { data } = useGetItems(Number(query?.get('storeId')));
 	useEffect(() => {
@@ -40,149 +42,159 @@ const Step3 = () => {
 
 	return (
 		<>
-			<GuideWrapper>
-				<Typography variant={'h2'} aggressive={'body_multiline_001'} color={theme.colors.gray_005}>
-					※ 매장에서 판매 중인 “리필” 제품만 등록 부탁드립니다. 각 제품의 상품명은 필수 입력 사항입니다.
-				</Typography>
-			</GuideWrapper>
-			<StAccordion>
-				<StAccordionSummary expandIcon={<ExpandMoreIcon />}>
-					<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
-						기초화장 / 세안
-					</Typography>
-				</StAccordionSummary>
-				<StAccordionDetails id="baseMakeUp">
-					{baseMakeUp.map(({ brandName, productName, isProductEmptyError }, index) => {
-						return (
-							<ProductInfoElement
-								key={index}
-								elementIdx={index}
-								brandName={brandName}
-								productName={productName}
-								isProductEmptyError={isProductEmptyError}
-								productArr={'baseMakeUp'}
-							/>
-						);
-					})}
-				</StAccordionDetails>
-			</StAccordion>
+			{axiosLoading ? (
+				<FlexBox width={'100%'} height={'calc(100vh - 257px)'} justifyContent={'center'} alignItems={'center'}>
+					<div style={{ width: '4rem' }}>
+						<LoadingCircleLottie />
+					</div>
+				</FlexBox>
+			) : (
+				<>
+					<GuideWrapper>
+						<Typography variant={'h2'} aggressive={'body_multiline_001'} color={theme.colors.gray_005}>
+							※ 매장에서 판매 중인 “리필” 제품만 등록 부탁드립니다. 각 제품의 상품명은 필수 입력 사항입니다.
+						</Typography>
+					</GuideWrapper>
+					<StAccordion>
+						<StAccordionSummary expandIcon={<ExpandMoreIcon />}>
+							<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
+								기초화장 / 세안
+							</Typography>
+						</StAccordionSummary>
+						<StAccordionDetails id="baseMakeUp">
+							{baseMakeUp.map(({ brandName, productName, isProductEmptyError }, index) => {
+								return (
+									<ProductInfoElement
+										key={index}
+										elementIdx={index}
+										brandName={brandName}
+										productName={productName}
+										isProductEmptyError={isProductEmptyError}
+										productArr={'baseMakeUp'}
+									/>
+								);
+							})}
+						</StAccordionDetails>
+					</StAccordion>
 
-			<StAccordion>
-				<StAccordionSummary expandIcon={<ExpandMoreIcon />}>
-					<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
-						바디 / 헤어
-					</Typography>
-				</StAccordionSummary>
-				<StAccordionDetails id="bodyHair">
-					{bodyHair.map(({ brandName, productName, isProductEmptyError }, index) => {
-						return (
-							<ProductInfoElement
-								key={index}
-								elementIdx={index}
-								brandName={brandName}
-								productName={productName}
-								isProductEmptyError={isProductEmptyError}
-								productArr={'bodyHair'}
-							/>
-						);
-					})}
-				</StAccordionDetails>
-			</StAccordion>
-			<StAccordion>
-				<StAccordionSummary expandIcon={<ExpandMoreIcon />}>
-					<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
-						세제
-					</Typography>
-				</StAccordionSummary>
-				<StAccordionDetails id="detergent">
-					{detergent.map(({ brandName, productName, isProductEmptyError }, index) => {
-						return (
-							<ProductInfoElement
-								key={index}
-								elementIdx={index}
-								brandName={brandName}
-								productName={productName}
-								isProductEmptyError={isProductEmptyError}
-								productArr={'detergent'}
-							/>
-						);
-					})}
-				</StAccordionDetails>
-			</StAccordion>
-			<StAccordion>
-				<StAccordionSummary expandIcon={<ExpandMoreIcon />}>
-					<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
-						식재료
-					</Typography>
-				</StAccordionSummary>
-				<StAccordionDetails id="ingredient">
-					{ingredient.map(({ brandName, productName, isProductEmptyError }, index) => {
-						return (
-							<ProductInfoElement
-								key={index}
-								elementIdx={index}
-								brandName={brandName}
-								productName={productName}
-								isProductEmptyError={isProductEmptyError}
-								productArr={'ingredient'}
-							/>
-						);
-					})}
-				</StAccordionDetails>
-			</StAccordion>
-			<StAccordion>
-				<StAccordionSummary expandIcon={<ExpandMoreIcon />}>
-					<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
-						기타
-					</Typography>
-				</StAccordionSummary>
-				<StAccordionDetails id="etc">
-					{etc.map(({ brandName, productName, isProductEmptyError }, index) => {
-						return (
-							<ProductInfoElement
-								key={index}
-								elementIdx={index}
-								brandName={brandName}
-								productName={productName}
-								isProductEmptyError={isProductEmptyError}
-								productArr={'etc'}
-							/>
-						);
-					})}
-				</StAccordionDetails>
-			</StAccordion>
-			<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '40px' }} gap="8px">
-				{query?.get('isReady') === null ? (
-					<>
-						<LargeBtn type="button" style={style.btnStyle.white_btn} onClick={handleTemporarySave}>
-							임시저장
-						</LargeBtn>
-						<LargeBtn type="button" style={style.btnStyle.primary_btn_001} onClick={handleSaveItems}>
-							입점신청
-						</LargeBtn>
-					</>
-				) : (
-					<LargeBtn
-						type="button"
-						style={style.btnStyle.primary_btn_002}
-						onClick={() => changeModalKey(MODAL_KEY.ON_STORE_EDIT_COMPLETION_CONFIRM_MODAL)}
-					>
-						수정완료
-					</LargeBtn>
-				)}
-			</StyledLayout.FlexBox>
-			<Toast duration={2} open={temporarySaveToast} />
-			{modalKey === MODAL_KEY.ON_STORE_PRODUCT_REQUIRED_WARNING_MODAL && (
-				<StoreProductRequiredWarningModal onClick={() => changeModalKey(MODAL_KEY.OFF)} />
-			)}
-			{modalKey === MODAL_KEY.ON_STORE_PRODUCT_REQUIRED_SAVE_WARNING_MODAL && (
-				<StoreProductRequiredSaveWarningModal onClick={() => changeModalKey(MODAL_KEY.OFF)} />
-			)}
-			{modalKey === MODAL_KEY.ON_STORE_REGISTRATION_CONFIRM_MODAL && (
-				<StoreRegistrationConfirmModal onCancel={() => changeModalKey(MODAL_KEY.OFF)} onConfirm={submitData} />
-			)}
-			{modalKey === MODAL_KEY.ON_STORE_EDIT_COMPLETION_CONFIRM_MODAL && (
-				<StoreEditCompletionConfirmModal onCancel={() => changeModalKey(MODAL_KEY.OFF)} onConfirm={submitEditItems} />
+					<StAccordion>
+						<StAccordionSummary expandIcon={<ExpandMoreIcon />}>
+							<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
+								바디 / 헤어
+							</Typography>
+						</StAccordionSummary>
+						<StAccordionDetails id="bodyHair">
+							{bodyHair.map(({ brandName, productName, isProductEmptyError }, index) => {
+								return (
+									<ProductInfoElement
+										key={index}
+										elementIdx={index}
+										brandName={brandName}
+										productName={productName}
+										isProductEmptyError={isProductEmptyError}
+										productArr={'bodyHair'}
+									/>
+								);
+							})}
+						</StAccordionDetails>
+					</StAccordion>
+					<StAccordion>
+						<StAccordionSummary expandIcon={<ExpandMoreIcon />}>
+							<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
+								세제
+							</Typography>
+						</StAccordionSummary>
+						<StAccordionDetails id="detergent">
+							{detergent.map(({ brandName, productName, isProductEmptyError }, index) => {
+								return (
+									<ProductInfoElement
+										key={index}
+										elementIdx={index}
+										brandName={brandName}
+										productName={productName}
+										isProductEmptyError={isProductEmptyError}
+										productArr={'detergent'}
+									/>
+								);
+							})}
+						</StAccordionDetails>
+					</StAccordion>
+					<StAccordion>
+						<StAccordionSummary expandIcon={<ExpandMoreIcon />}>
+							<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
+								식재료
+							</Typography>
+						</StAccordionSummary>
+						<StAccordionDetails id="ingredient">
+							{ingredient.map(({ brandName, productName, isProductEmptyError }, index) => {
+								return (
+									<ProductInfoElement
+										key={index}
+										elementIdx={index}
+										brandName={brandName}
+										productName={productName}
+										isProductEmptyError={isProductEmptyError}
+										productArr={'ingredient'}
+									/>
+								);
+							})}
+						</StAccordionDetails>
+					</StAccordion>
+					<StAccordion>
+						<StAccordionSummary expandIcon={<ExpandMoreIcon />}>
+							<Typography variant={'h3'} aggressive={'headline_oneline_004'} color={theme.colors.gray_007}>
+								기타
+							</Typography>
+						</StAccordionSummary>
+						<StAccordionDetails id="etc">
+							{etc.map(({ brandName, productName, isProductEmptyError }, index) => {
+								return (
+									<ProductInfoElement
+										key={index}
+										elementIdx={index}
+										brandName={brandName}
+										productName={productName}
+										isProductEmptyError={isProductEmptyError}
+										productArr={'etc'}
+									/>
+								);
+							})}
+						</StAccordionDetails>
+					</StAccordion>
+					<StyledLayout.FlexBox justifyContent="center" style={{ paddingTop: '40px' }} gap="8px">
+						{query?.get('isReady') === null ? (
+							<>
+								<LargeBtn type="button" style={style.btnStyle.white_btn} onClick={handleTemporarySave}>
+									임시저장
+								</LargeBtn>
+								<LargeBtn type="button" style={style.btnStyle.primary_btn_001} onClick={handleSaveItems}>
+									입점신청
+								</LargeBtn>
+							</>
+						) : (
+							<LargeBtn
+								type="button"
+								style={style.btnStyle.primary_btn_002}
+								onClick={() => changeModalKey(MODAL_KEY.ON_STORE_EDIT_COMPLETION_CONFIRM_MODAL)}
+							>
+								수정완료
+							</LargeBtn>
+						)}
+					</StyledLayout.FlexBox>
+					<Toast duration={2} open={temporarySaveToast} />
+					{modalKey === MODAL_KEY.ON_STORE_PRODUCT_REQUIRED_WARNING_MODAL && (
+						<StoreProductRequiredWarningModal onClick={() => changeModalKey(MODAL_KEY.OFF)} />
+					)}
+					{modalKey === MODAL_KEY.ON_STORE_PRODUCT_REQUIRED_SAVE_WARNING_MODAL && (
+						<StoreProductRequiredSaveWarningModal onClick={() => changeModalKey(MODAL_KEY.OFF)} />
+					)}
+					{modalKey === MODAL_KEY.ON_STORE_REGISTRATION_CONFIRM_MODAL && (
+						<StoreRegistrationConfirmModal onCancel={() => changeModalKey(MODAL_KEY.OFF)} onConfirm={submitData} />
+					)}
+					{modalKey === MODAL_KEY.ON_STORE_EDIT_COMPLETION_CONFIRM_MODAL && (
+						<StoreEditCompletionConfirmModal onCancel={() => changeModalKey(MODAL_KEY.OFF)} onConfirm={submitEditItems} />
+					)}
+				</>
 			)}
 		</>
 	);

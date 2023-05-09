@@ -1,4 +1,3 @@
-import { useGetItems } from 'hooks/api/items/useGetItems';
 import { patchItems } from 'hooks/api/items/usePatchItems';
 import { postItems } from 'hooks/api/items/usePostItems';
 import { temporaryPostItems } from 'hooks/api/items/useTemporaryPostItems';
@@ -14,10 +13,12 @@ export const useStep3Form = () => {
 	const { baseMakeUp, bodyHair, detergent, ingredient, etc, changeError, setProduct } = productStore();
 	const { modalKey, changeModalKey } = useModalStore();
 	const [temporarySaveToast, setTemporarySaveToast] = useState(false);
+	const [axiosLoading, setAxiosLoading] = useState(false);
 	const submitEditItems = async () => {
+		changeModalKey(MODAL_KEY.OFF);
+		setAxiosLoading(true);
 		const request = await makeItemsEditRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
 		await patchItems(Number(query?.get('storeId')), request);
-		changeModalKey(MODAL_KEY.OFF);
 		router.push(`/mypage/store`);
 	};
 	const handleTemporarySave = async () => {
@@ -65,9 +66,10 @@ export const useStep3Form = () => {
 		}
 	};
 	const submitData = async () => {
+		changeModalKey(MODAL_KEY.OFF);
+		setAxiosLoading(true);
 		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
 		await postItems(Number(query?.get('id')), request);
-		changeModalKey(MODAL_KEY.OFF);
 		router.replace('/registration/success');
 	};
 
@@ -87,5 +89,6 @@ export const useStep3Form = () => {
 		temporarySaveToast,
 		modalKey,
 		changeModalKey,
+		axiosLoading,
 	};
 };
