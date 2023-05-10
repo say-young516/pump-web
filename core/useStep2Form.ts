@@ -10,10 +10,10 @@ import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
 import { step1RequestStore } from 'store/actions/step1Store';
 import { step2ErrorStore, step2RequestStore } from 'store/actions/step2Store';
 import {
-	IBusinessLicenseStatusResponse,
 	checkEmptyInputError,
 	extractBusinessLicenseExceptHyhpen,
 	handleFindCoords,
+	IBusinessLicenseStatusResponse,
 	makeBusinessHourData,
 	makeImgPath,
 	makeStoreAddress,
@@ -46,6 +46,7 @@ export const useStep2Form = () => {
 	const setData = (data: Store | null | undefined) => {
 		if (data && query?.get('storeId') !== null) {
 			setInitialValue(data);
+			if (data?.registrationNumber !== '' && data?.callNumber !== null) setInputState('registrationNumber', 'success');
 			if (data?.callNumber !== '' && data?.callNumber !== null) setStoreCallNumber(data.callNumber);
 			if (data?.businessHour !== null && data?.businessHour !== '') {
 				setBusinessHourValues(refineStoreBusinessHoursStringToArray(data?.businessHour));
