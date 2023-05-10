@@ -9,14 +9,15 @@ export interface Product {
 	productName: string;
 	isProductEmptyError: 'normal' | 'error';
 }
-
-export interface Products {
-	[index: string]: any;
+export interface ProductCategory {
 	baseMakeUp: Product[];
 	bodyHair: Product[];
 	detergent: Product[];
 	ingredient: Product[];
 	etc: Product[];
+}
+export interface Products extends ProductCategory {
+	[index: string]: any;
 	addProduct: (productArrName: string) => void;
 	removeProduct: (productArrName: string, elementIdx: number) => void;
 	onChangeBrandName: (productArrName: string, elementIdx: number, value: string) => void;
@@ -26,14 +27,16 @@ export interface Products {
 	setError: (productArrName: string) => number;
 	setProduct: (items: GetItem[]) => void;
 }
-
+const initialState: ProductCategory = {
+	baseMakeUp: [{ id: 0, category: '기초화장/세안', brandName: '', productName: '', isProductEmptyError: 'normal' }],
+	bodyHair: [{ id: 0, category: '바디/헤어', brandName: '', productName: '', isProductEmptyError: 'normal' }],
+	detergent: [{ id: 0, category: '세제', brandName: '', productName: '', isProductEmptyError: 'normal' }],
+	ingredient: [{ id: 0, category: '식재료', brandName: '', productName: '', isProductEmptyError: 'normal' }],
+	etc: [{ id: 0, category: '기타', brandName: '', productName: '', isProductEmptyError: 'normal' }],
+};
 export const productStore = create<Products>()(
 	devtools((set, get) => ({
-		baseMakeUp: [{ id: 0, category: '기초화장/세안', brandName: '', productName: '', isProductEmptyError: 'normal' }],
-		bodyHair: [{ id: 0, category: '바디/헤어', brandName: '', productName: '', isProductEmptyError: 'normal' }],
-		detergent: [{ id: 0, category: '세제', brandName: '', productName: '', isProductEmptyError: 'normal' }],
-		ingredient: [{ id: 0, category: '식재료', brandName: '', productName: '', isProductEmptyError: 'normal' }],
-		etc: [{ id: 0, category: '기타', brandName: '', productName: '', isProductEmptyError: 'normal' }],
+		...initialState,
 		addProduct: (productArrName: string) => {
 			if (get()[productArrName][0].productName !== '') {
 				set((state) => ({
