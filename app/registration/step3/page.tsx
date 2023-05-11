@@ -38,7 +38,7 @@ const Step3 = () => {
 	} = useStep3Form();
 	const { data } = useGetItems(Number(query?.get('storeId')));
 	useEffect(() => {
-		if (!data) resetStep3();
+		if (!data && query?.get('storeId') !== null && query?.get('storeId') !== undefined) resetStep3();
 	}, []);
 	useEffect(() => {
 		if (data) {

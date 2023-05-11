@@ -53,9 +53,9 @@ export const useStep2Form = () => {
 				setSelectedBusinessHourBtn('eachDays');
 			}
 			if (data?.imgStore?.length > 0) {
-				setClientStoreImageURL(data?.imgStore[0]?.path ?? '');
-				setS3ImagePath(data?.imgStore[0]?.path ?? '');
-				if (data?.imgStore?.length > 0 && data?.imgStore[0]?.path !== '') setSelectedStoreImageBtn('registerImage');
+				setClientStoreImageURL(data?.imgStore?.at(0)?.path ?? '');
+				setS3ImagePath(data.imgStore?.at(0)?.path ?? '');
+				if (data?.imgStore?.length > 0 && data?.imgStore?.at(0)?.path) setSelectedStoreImageBtn('registerImage');
 			}
 			if (data?.address !== '' && data?.address !== null) {
 				setStorePostcodeInputs({

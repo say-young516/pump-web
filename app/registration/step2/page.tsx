@@ -222,11 +222,7 @@ const Step2 = () => {
 									name="storeImage"
 									value="registerImage"
 									onChange={handleSelectedStoreImageBtn}
-									defaultChecked={
-										query?.get('isReady') !== null ||
-										(data !== null && data !== undefined) ||
-										selectedStoreImageBtn === 'registerImage'
-									}
+									defaultChecked={(data !== null && data !== undefined) || selectedStoreImageBtn === 'registerImage'}
 								/>
 								<StyledLayout.FlexBox style={{ paddingLeft: '8px' }} gap="8px" flexDirection="column">
 									<label htmlFor="registerImage">
