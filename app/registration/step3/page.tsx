@@ -38,10 +38,7 @@ const Step3 = () => {
 	} = useStep3Form();
 	const { data } = useGetItems(Number(query?.get('storeId')));
 	useEffect(() => {
-		if (!data)
-			if (!data) {
-				resetStep3();
-			}
+		if (!data) resetStep3();
 	}, []);
 	useEffect(() => {
 		if (data) {

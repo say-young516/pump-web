@@ -52,10 +52,10 @@ export const useStep2Form = () => {
 				setBusinessHourValues(refineStoreBusinessHoursStringToArray(data?.businessHour));
 				setSelectedBusinessHourBtn('eachDays');
 			}
-			if (data?.imgStore?.length > 0 && data?.imgStore !== null && data?.imgStore !== undefined) {
+			if (data?.imgStore?.length > 0) {
 				setClientStoreImageURL(data?.imgStore[0]?.path ?? '');
 				setS3ImagePath(data?.imgStore[0]?.path ?? '');
-				setSelectedStoreImageBtn('registerImage');
+				if (data?.imgStore?.length > 0 && data?.imgStore[0]?.path !== '') setSelectedStoreImageBtn('registerImage');
 			}
 			if (data?.address !== '' && data?.address !== null) {
 				setStorePostcodeInputs({
