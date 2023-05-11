@@ -57,10 +57,19 @@ const Step2 = () => {
 		modalKey,
 		axiosLoading,
 	} = useStep2Form();
-	const { name, notice, basicAddress, addressDetail, instaAccount, callNumber } = step2ErrorStore();
+	const { name, notice, basicAddress, addressDetail, instaAccount, callNumber, resetStep2 } = step2ErrorStore();
 	const { data } = useGetStore(query?.get('storeId'));
 	useEffect(() => {
-		setData(data);
+		if (!data) {
+			resetStep2();
+			console.log('스텝2 리셋');
+		}
+	}, []);
+	useEffect(() => {
+		if (data) {
+			setData(data);
+			console.log('스텝2 데이터');
+		}
 	}, [data]);
 	useEffect(() => {
 		const newDayOff: boolean[] = [];

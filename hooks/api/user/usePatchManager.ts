@@ -1,6 +1,6 @@
 import pumpClientRequester from 'core/apis/axios';
 import { API_PATH, HTTP_METHOD } from 'core/apis/constants';
-import { Step1Request } from 'store/actions/step1Store';
+import { Step1Data, Step1Request } from 'store/actions/step1Store';
 import { APIResponse } from 'types/api';
 import { getUserTokenFromLocalStorage } from 'utils/storage';
 import { UserSession } from '../auth/useUserSession';
@@ -11,7 +11,7 @@ export interface ManagerPatchResponse extends APIResponse {
 	};
 }
 
-export const patchManager = async (managerData: Step1Request) => {
+export const patchManager = async (managerData: Step1Data) => {
 	const {
 		user: { manager },
 	} = API_PATH;

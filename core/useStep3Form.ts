@@ -10,7 +10,7 @@ import { makeItemsEditRequest, makeItemsRequest } from './storeRegistrationServi
 export const useStep3Form = () => {
 	const router = useRouter();
 	const query = useSearchParams();
-	const { baseMakeUp, bodyHair, detergent, ingredient, etc, changeError, setProduct } = productStore();
+	const { baseMakeUp, bodyHair, detergent, ingredient, etc, changeError, setProduct, resetStep3 } = productStore();
 	const { modalKey, changeModalKey } = useModalStore();
 	const [temporarySaveToast, setTemporarySaveToast] = useState(false);
 	const [axiosLoading, setAxiosLoading] = useState(false);
@@ -90,5 +90,6 @@ export const useStep3Form = () => {
 		modalKey,
 		changeModalKey,
 		axiosLoading,
+		resetStep3,
 	};
 };

@@ -51,6 +51,7 @@ export interface Step2Error extends Step2Request {
 	setInputValue: (inputId: string, inputValue: string) => void;
 	setInitialValue: (data: Store | null) => void;
 	setInputState: (inputId: string, inputState: 'normal' | 'error' | 'success' | 'notClicked' | 'fail') => void;
+	resetStep2: () => void;
 }
 
 export const step2ErrorStore = create<Step2Error>()(
@@ -76,6 +77,7 @@ export const step2ErrorStore = create<Step2Error>()(
 			set((state) => ({ [inputId]: { ...state.inputId, value: inputValue } })),
 		setInputState: (inputId: string, inputState: 'normal' | 'error' | 'success' | 'notClicked' | 'fail') =>
 			set((state) => ({ [inputId]: { ...state[inputId], isError: inputState } })),
+		resetStep2: () => set({ ...initialState }),
 	})),
 );
 export const step2RequestStore = create<Step2Store>()(

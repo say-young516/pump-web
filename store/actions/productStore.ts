@@ -26,6 +26,7 @@ export interface Products extends ProductCategory {
 	changeNormal: (productArrName: string, elementIdx: number) => void;
 	setError: (productArrName: string) => number;
 	setProduct: (items: GetItem[]) => void;
+	resetStep3: () => void;
 }
 const initialState: ProductCategory = {
 	baseMakeUp: [{ id: 0, category: '기초화장/세안', brandName: '', productName: '', isProductEmptyError: 'normal' }],
@@ -164,5 +165,6 @@ export const productStore = create<Products>()(
 				}));
 			}
 		},
+		resetStep3: () => set({ ...initialState }),
 	})),
 );
