@@ -41,13 +41,11 @@ const Step3 = () => {
 		if (!data)
 			if (!data) {
 				resetStep3();
-				console.log('스텝3 리셋');
 			}
 	}, []);
 	useEffect(() => {
 		if (data) {
 			setProduct(data);
-			console.log('스텝3 데이터');
 		}
 	}, [data]);
 

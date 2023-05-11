@@ -62,13 +62,11 @@ const Step2 = () => {
 	useEffect(() => {
 		if (!data) {
 			resetStep2();
-			console.log('스텝2 리셋');
 		}
 	}, []);
 	useEffect(() => {
 		if (data) {
 			setData(data);
-			console.log('스텝2 데이터');
 		}
 	}, [data]);
 	useEffect(() => {
