@@ -10,6 +10,7 @@ export interface Product {
 	isProductEmptyError: 'normal' | 'error';
 }
 export interface ProductCategory {
+	[index: string]: any;
 	baseMakeUp: Product[];
 	bodyHair: Product[];
 	detergent: Product[];
@@ -151,7 +152,7 @@ export const productStore = create<Products>()(
 					productArr !== '기타'
 				)
 					continue;
-				set((state) => ({
+				set(() => ({
 					...get()[productArr],
 					[productArr]: [
 						{
