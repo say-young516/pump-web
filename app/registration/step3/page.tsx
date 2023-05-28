@@ -34,12 +34,8 @@ const Step3 = () => {
 		modalKey,
 		changeModalKey,
 		axiosLoading,
-		resetStep3,
 	} = useStep3Form();
 	const { data } = useGetItems(Number(query?.get('storeId')));
-	useEffect(() => {
-		if (!data && query?.get('storeId') !== null && query?.get('storeId') !== undefined) resetStep3();
-	}, []);
 	useEffect(() => {
 		if (data) {
 			setProduct(data);

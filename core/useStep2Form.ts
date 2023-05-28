@@ -7,13 +7,13 @@ import { useS3Upload } from 'next-s3-upload';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ChangeEvent, FormEvent, RefObject, useRef, useState } from 'react';
 import useModalStore, { MODAL_KEY } from 'store/actions/modalStore';
-import { step1RequestStore } from 'store/actions/step1Store';
+import { step1ErrorStore, step1RequestStore } from 'store/actions/step1Store';
 import { step2ErrorStore, step2RequestStore } from 'store/actions/step2Store';
 import {
+	IBusinessLicenseStatusResponse,
 	checkEmptyInputError,
 	extractBusinessLicenseExceptHyhpen,
 	handleFindCoords,
-	IBusinessLicenseStatusResponse,
 	makeBusinessHourData,
 	makeImgPath,
 	makeStoreAddress,
@@ -27,7 +27,7 @@ export const useStep2Form = () => {
 	const [businessHourValues, setBusinessHourValues] = useState<Array<{ day: string; time: string | null }>>([]);
 	const [axiosLoading, setAxiosLoading] = useState(false);
 	const { step2Request, setStep2Request } = step2RequestStore();
-	const { imgPath, registrationNumber, setInputState, setInitialValue } = step2ErrorStore();
+	const { imgPath, registrationNumber, setInputState, setInitialValue, resetStep2 } = step2ErrorStore();
 	const { modalKey, changeModalKey } = useModalStore();
 	const [storePostcodeInputs, setStorePostcodeInputs] = useState({
 		address: '', // 기본 주소
@@ -42,6 +42,7 @@ export const useStep2Form = () => {
 	const [S3ImagePath, setS3ImagePath] = useState(imgPath.value[0] ?? '');
 	const [selectedBusinessHourBtn, setSelectedBusinessHourBtn] = useState('weekDaysWeekEnd');
 	const { step1Request } = step1RequestStore();
+	const { resetStep1 } = step1ErrorStore();
 	const { uploadToS3 } = useS3Upload();
 	const setData = (data: Store | null | undefined) => {
 		if (data && query?.get('storeId') !== null) {
@@ -124,13 +125,16 @@ export const useStep2Form = () => {
 		changeModalKey(MODAL_KEY.OFF);
 		setAxiosLoading(true);
 		await patchManager(step1Request);
+		resetStep1();
 		const step2Response = await postStore(step2Request);
+		resetStep2();
 		router.replace(`/registration/step3?id=${step2Response.storeId}`);
 	};
 	const submitEditInputs = async () => {
 		changeModalKey(MODAL_KEY.OFF);
 		setAxiosLoading(true);
 		await patchStore({ ...step2Request, id: Number(query?.get('storeId')) });
+		resetStep2();
 		router.replace(`/mypage/store`);
 	};
 	const handleSelectedStoreImageBtn = (e: React.ChangeEvent<HTMLInputElement>) => {

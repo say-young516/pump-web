@@ -60,11 +60,6 @@ const Step2 = () => {
 	const { name, notice, basicAddress, addressDetail, instaAccount, callNumber, resetStep2 } = step2ErrorStore();
 	const { data } = useGetStore(query?.get('storeId'));
 	useEffect(() => {
-		if (!data) {
-			resetStep2();
-		}
-	}, []);
-	useEffect(() => {
 		if (data) {
 			setData(data);
 		}

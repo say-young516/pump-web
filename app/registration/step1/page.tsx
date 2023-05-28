@@ -3,18 +3,14 @@
 import { StoreRegistrationExitConfirmModal, TextField } from 'components/feature';
 import { LargeBtn, PrivateRoute, StyledLayout, Typography } from 'components/shared';
 import { useStep1Form } from 'core/useStep1Form';
-import { useEffect } from 'react';
 import { MODAL_KEY } from 'store/actions/modalStore';
 import { step1ErrorStore } from 'store/actions/step1Store';
 import { theme } from 'styles';
 import style from 'styles/style';
 
 const Step1 = () => {
-	const { name, email, phoneNumber, changeNormal, changeFormNormal, resetStep1 } = step1ErrorStore();
+	const { name, email, phoneNumber, changeNormal, changeFormNormal } = step1ErrorStore();
 	const { modalKey, changeModalKey, customPhoneNum, setCurrentKey, handleOnSubmit, handlePhoneNumber } = useStep1Form();
-	useEffect(() => {
-		resetStep1();
-	}, []);
 	return (
 		<>
 			<form onSubmit={handleOnSubmit}>
