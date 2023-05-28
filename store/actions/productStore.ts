@@ -143,7 +143,7 @@ export const productStore = create<Products>()(
 				return;
 			}
 			for (let i = 0; i < items.length; i++) {
-				const productArr = items[i].category;
+				let productArr = items[i].category;
 				if (
 					productArr !== '기초화장/세안' &&
 					productArr !== '바디/헤어' &&
@@ -152,8 +152,14 @@ export const productStore = create<Products>()(
 					productArr !== '기타'
 				)
 					continue;
-				set(() => ({
-					...get()[productArr],
+
+				if (productArr === '기초화장/세안') productArr = 'baseMakeUp';
+				else if (productArr === '바디/헤어') productArr = 'bodyHair';
+				else if (productArr === '세제') productArr = 'detergent';
+				else if (productArr === '식재료') productArr = 'ingredient';
+				else if (productArr === '기타') productArr = 'etc';
+				set((state) => ({
+					...state,
 					[productArr]: [
 						{
 							id: items[i].id,
