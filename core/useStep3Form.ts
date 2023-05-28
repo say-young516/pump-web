@@ -19,7 +19,6 @@ export const useStep3Form = () => {
 		setAxiosLoading(true);
 		const request = await makeItemsEditRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
 		await patchItems(Number(query?.get('storeId')), request);
-		resetStep3();
 		router.push(`/mypage/store`);
 	};
 	const handleTemporarySave = async () => {
@@ -71,7 +70,6 @@ export const useStep3Form = () => {
 		setAxiosLoading(true);
 		const request = makeItemsRequest([...baseMakeUp, ...bodyHair, ...detergent, ...ingredient, ...etc]);
 		await postItems(Number(query?.get('id')), request);
-		resetStep3();
 		router.replace('/registration/success');
 	};
 
